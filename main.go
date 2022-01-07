@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 func main() {
@@ -11,8 +12,13 @@ func main() {
 	flag.Parse()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		ip := req.Header.Get("X-Real-IP")
+		if ip == "" {
+			ip = req.RemoteAddr[0:strings.LastIndex(req.RemoteAddr, ":")]
+		}
+
 		w.Header().Set("Content-Type", "text/plain")
-		fmt.Fprintf(w, req.RemoteAddr+"\r\n")
+		fmt.Fprintf(w, ip+"\r\n")
 
 	})
 
