@@ -1,0 +1,11 @@
+[Unit]
+Description=addr
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=/usr/local/bin/addr
+
+[Install]
+WantedBy=multi-user.target
